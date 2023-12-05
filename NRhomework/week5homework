@@ -1,0 +1,34 @@
+import cv2
+import sys
+
+def resample_image(input_path, output_path, target_width, target_height):
+    # 이미지 파일 읽기
+    input_image = cv2.imread(input_path)
+
+    if input_image is None:
+        print("Error: Couldn't read the image file.")
+        return
+
+    # 현재 해상도 출력
+    current_resolution = (input_image.shape[1], input_image.shape[0]) 
+    print("Current Resolution:", current_resolution)
+
+    # 이미지 샘플링
+    resampled_image = cv2.resize(input_image, (target_width, target_height), interpolation=cv2.INTER_LINEAR)
+
+    # 이미지 저장
+    cv2.imwrite(output_path, resampled_image)
+
+    print("Resampled image saved to:", output_path)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 5:
+        print("Usage: python script.py <input_image_path> <output_image_path> <target_width> <target_height>")
+        sys.exit(1)
+
+    input_path = sys.argv[1]
+    output_path = sys.argv[2]
+    target_width = int(sys.argv[3])
+    target_height = int(sys.argv[4])
+
+    resample_image(input_path, output_path, target_width, target_height)
