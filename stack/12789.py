@@ -1,33 +1,38 @@
 import sys
 input = sys.stdin.readline
 
-N = int(input().rstrip())
-flag = True
+def acmicpc12789(queue):
+    stack = []
+    count = 1
 
-command  = input().rstrip()
-queue = [int(num) for num in command.split()]
-stack = []
-count = 1
-for i in queue :
-    if len(stack) != 0 :
-        while stack[-1] == count:
+    for i in queue:
+        while stack and stack[-1] == count:
             stack.pop()
-            count = count + 1
-            if len(stack) == 0: break
-    if i == count:
-        count = count + 1
-    else :
-        stack.append(i)
-    
-while len(stack) != 0:
-    temp = stack.pop()
-    if temp == count:
-        count = count + 1
-    else :
-        flag = False
-        break
+            count += 1
 
-if flag :
-    print ("Nice")
-else :
-    print ("Sad")
+        if i == count:
+            count += 1
+        else:
+            stack.append(i)
+
+    while stack:
+        temp = stack.pop()
+        if temp == count:
+            count += 1
+        else:
+            return False
+
+    return True
+
+def main():
+    N = int(input().rstrip())
+    command = input().rstrip()
+    queue = [int(num) for num in command.split()]
+
+    if acmicpc12789(queue):
+        print("Nice")
+    else:
+        print("Sad")
+
+if __name__ == "__main__":
+    main()
